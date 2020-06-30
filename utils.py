@@ -1,7 +1,8 @@
 import os
 
 
-def listFiles(directory, patterns="*.*"):
+"""Return the pathname of the specified directory."""
+def listFiles(directory: str, patterns: list):
     filepaths = []
     for ROOT, DIR, FILES in os.walk(directory):
         for file in FILES:
