@@ -1,4 +1,6 @@
 import os
+import glob
+import json
 from unittest import TestCase
 from pholof import findExifFiles
 from utils import listFiles
@@ -9,7 +11,7 @@ class TestFindExifFiles(TestCase):
         self.currentDirectory = os.getcwd()
         self.testFileDirectory = os.path.join(self.currentDirectory,
                                               "test/files/")
-        self.geoTags = ["GPS Longitude", "GPS Latitude", "GPS Position"]
+        self.geoTags = ["Composite:GPSPosition"]
         self.imageExts = ['.jpg', '.gif', '.png', '.jpeg']
         self.files = [
             'Geneva.JPG', 'RANDOM.GIF', 'geneva-comp.jpg', 'lorem.html',
@@ -30,7 +32,15 @@ class TestFindExifFiles(TestCase):
         dirs = [self.testFileDirectory]
         tags = self.geoTags
         exts = self.imageExts
-        exifFiles = findExifFiles(dirs, tags, exts)
-        fileKeys = list(exifFiles)
-        file1 = testFiles[0]
-        self.assertEqual(fileKeys[0], file1)
+        exifFileData = findExifFiles(dirs, tags, exts)
+        exifFiles = list(exifFileData)
+        self.assertEqual(exifFiles[0], testFiles[0])
+
+    def test_findExifGpsResult(self):
+        exifFileData = findExifFiles([self.testFileDirectory], self.geoTags,
+                                     ['.jpg'])
+        testPath = "/home/user/projects/pholof/test/files/geneva-comp.jpg"
+        testTag = "Composite:GPSPosition"
+        exifData = exifFileData[testPath]
+        exifTagData = exifData[testTag]
+        self.assertEqual(exifTagData, "46.2210805555556 6.15205833333333")
