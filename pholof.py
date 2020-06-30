@@ -1,13 +1,12 @@
 import os
 import exiftool
-import utils
+from utils import listFiles
+import json
 
-exts = [".jpg", ".gif", ".png", ".jpeg"]
-tags = []
-
-
-def findExifFiles(dirs:list, tags:list, exts:list):
+def findExifFiles(dirs: list, tags: list, exts: list):
     exifFiles = {}
     for d in dirs:
-        utils.listFiles(d, exts)
+        files = listFiles(d, exts)
+        for f in files:
+            exifFiles[f] = ""
     return exifFiles
