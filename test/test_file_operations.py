@@ -16,6 +16,7 @@ imageFiles = [
     'vietnam-comp.jpg', 'vietnam.png'
 ]
 
+pdfFiles = ['lorem.pdf']
 
 class TestFileOperations(unittest.TestCase):
     def test_listImageFiles(self):
@@ -27,6 +28,17 @@ class TestFileOperations(unittest.TestCase):
         ]
         result = utils.listFiles(testFileDirectory, imageExts)
         self.assertEqual(result, fullImagePaths)
+
+    def test_listPdfFile(self):
+        currentDirectory = os.getcwd()  # eg /home/user/projects/pholof
+        testFileDirectory = os.path.join(currentDirectory, "test/files/")
+        pdfExts = [".pdf",]
+        fullPdfPaths = [
+            os.path.join(testFileDirectory, file) for file in pdfFiles
+        ]
+        result = utils.listFiles(testFileDirectory, pdfExts)
+        self.assertEqual(result, fullPdfPaths)
+
 
 
 if __name__ == '__main__':
