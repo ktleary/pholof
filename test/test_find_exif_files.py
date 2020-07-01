@@ -28,6 +28,7 @@ class TestFindExifFiles(TestCase):
         self.assertEqual(True, type(result) is dict)
 
     def test_findExifFilesReturnKeys(self):
+        # test dict filename keys
         testFiles = listFiles(self.testFileDirectory, ['.jpg'])
         dirs = [self.testFileDirectory]
         tags = self.geoTags
@@ -37,10 +38,13 @@ class TestFindExifFiles(TestCase):
         self.assertEqual(exifFiles[0], testFiles[0])
 
     def test_findExifGpsResult(self):
+        # test sample tag data
         exifFileData = findExifFiles([self.testFileDirectory], self.geoTags,
-                                     ['.jpg'])
+                                     ['.jpg', '.gif'])
         testPath = "/home/user/projects/pholof/test/files/geneva-comp.jpg"
         testTag = "Composite:GPSPosition"
         exifData = exifFileData[testPath]
         exifTagData = exifData[testTag]
         self.assertEqual(exifTagData, "46.2210805555556 6.15205833333333")
+
+
